@@ -70,30 +70,29 @@ The following is a random sampling of the training dataset, along with their ass
 
 #### 1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique. Pre-processing refers to techniques such as converting to grayscale, normalization, etc. (OPTIONAL: As described in the "Stand Out Suggestions" part of the rubric, if you generated additional data for training, describe why you decided to generate additional data, how you generated the data, and provide example images of the additional data. Then describe the characteristics of the augmented training set like number of images in the set, number of images for each class, etc.)
 
-
 The only preprocessing step I performed was to normalize the images. This results in the images having mean zero and equal variance to allow for quicker accurate classification. 
 
 #### 2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
 
 My final model consisted of the following layers:
 
-| Layer         		|     Description	        					| 
+| Layer					|     Description								| 
 |:---------------------:|:---------------------------------------------:| 
-| Input         		| 32x32x3 RGB image   							| 
-| Convolution 5x5     	| 1x1 stride, valid padding, outputs 28x28x6 	|
+| Input					| 32x32x3 RGB image								| 
+| Convolution 5x5		| 1x1 stride, valid padding, outputs 28x28x6	|
 | RELU					|												|
-| Max pooling	      	| 2x2 stride,  outputs 14x14x6 					|
-| Convolution 5x5     	| 1x1 stride, valid padding, outputs 10x10x6 	|
+| Max pooling			| 2x2 stride, outputs 14x14x6					|
+| Convolution 5x5		| 1x1 stride, valid padding, outputs 10x10x6	|
 | RELU					|												|
-| Max pooling	      	| 2x2 stride,  outputs 5x5x6 					|
-| Flattened				| Outputs 400        							|
-| Fully connected		| Outputs 120        							|
+| Max pooling			| 2x2 stride, outputs 5x5x6						|
+| Flattened				| Outputs 400									|
+| Fully connected		| Outputs 120									|
+| RELU					|												|
+| Dropout				| Keep prob: 50%								|
+| Fully connected		| Outputs 84									|
 | RELU					|												|
 | Dropout				| Keep prob: 50% 								|
-| Fully connected		| Outputs 84        							|
-| RELU					|												|
-| Dropout				| Keep prob: 50% 								|
-| Softmax				| 43 classes        							|
+| Softmax				| 43 classes									|
  
 
 
@@ -104,11 +103,11 @@ To train the model, I minimized mean cross entropy using the Adam Optimizer, wit
 #### 4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
 
 My final model results were:
-* training set accuracy of ?
-* validation set accuracy of ? 
-* test set accuracy of ?
+* training set accuracy of 99.3%
+* validation set accuracy of 95.3% 
+* test set accuracy of 93.8%
 
-I chose initially a LeNet architecture. I achieved a validation accuracy of around 87% with this. I looked at other architectures, and found the AlexNet architecture. One of the advances this architecture took advantage of was to use dropout. I added dropout to the two fully connected hidden layers, with increased my accuracy to over 90%. I then decreased the learning rate and increased the number of epochs, when I encountered the current vlaidation accuracy of 94.6%.
+I chose initially a LeNet architecture. I achieved a validation accuracy of around 87% with this. I looked at other architectures, and found the AlexNet architecture. One of the advances this architecture took advantage of was to use dropout. I added dropout to the two fully connected hidden layers, with increased my accuracy to over 90%. I then decreased the learning rate and increased the number of epochs, when I encountered the current vlaidation accuracy of 95.3%.
  
 
 ### Test a Model on New Images
@@ -152,31 +151,67 @@ Here are the results of the prediction:
 
 | Image					|     Prediction								| 
 |:---------------------:|:---------------------------------------------:| 
-| Turn right ahead		| Stop sign   									| 
-| Go straight or left	| U-turn 										|
-| Road work				| Yield											|
-| Pedestrians			| Bumpy Road					 				|
-| Yield					| Slippery Road									|
+| Turn right ahead		| Turn right ahead								| 
+| Go straight or left	| Go straight or left							|
+| Road work				| Road work										|
+| Pedestrians			| Speed limit (70km/h)							|
+| Yield					| Yield											|
 
 
-The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
+The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%.
 
 #### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
 
-The code for making predictions on my final model is located in the 11th cell of the Ipython notebook.
+The code for making predictions on my final model is located in the 20th cell of the Ipython notebook.
 
-For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
+The following predictions are only accurate to two decimal places, which is why many of the predictions are either 1.0 or 0. You can see the full predictios in the notebook, accurate to 7 decimal places. It is very confident about each of the correct predictions, but for the incorrect prediction (pedestrians), we can see it is only 83% confident. However, none of the top five predictions were the correct class.
 
-| Probability         	|     Prediction	        					| 
+
+##### Turn right ahead
+| Probability			|     Prediction								| 
 |:---------------------:|:---------------------------------------------:| 
-| .60         			| Stop sign   									| 
-| .20     				| U-turn 										|
-| .05					| Yield											|
-| .04	      			| Bumpy Road					 				|
-| .01				    | Slippery Road      							|
+| 1.00					| Turn right ahead								| 
+| 0.00					| Ahead only									|
+| 0.00					| Keep left										|
+| 0.00					| Turn left ahead								|
+| 0.00					| Roundabout mandatory							|
 
+##### Go straight or left
+| Probability			|     Prediction								| 
+|:---------------------:|:---------------------------------------------:| 
+| 0.99					| Go straight or left							| 
+| 0.00					| Roundabout mandatory							|
+| 0.00					| Keep left										|
+| 0.00					| Turn right ahead					 			|
+| 0.00					| Ahead only									|
 
-For the second image ... 
+##### Road work
+| Probability			|     Prediction								| 
+|:---------------------:|:---------------------------------------------:| 
+| 0.99					| Road work										| 
+| 0.00					| Go straight or left							|
+| 0.00					| Yield											|
+| 0.00					| Bicycles crossing								|
+| 0.00					| Bumpy road									|
+
+##### Pedestrians
+| Probability			|     Prediction								| 
+|:---------------------:|:---------------------------------------------:| 
+| 0.83					| Speed limit (70km/h)							| 
+| 0.15					| Speed limit (30km/h)							|
+| 0.00					| Speed limit (50km/h)							|
+| 0.00					| Speed limit (80km/h)							|
+| 0.00					| Speed limit (100km/h)							|
+
+##### Yield
+| Probability			|     Prediction								| 
+|:---------------------:|:---------------------------------------------:| 
+| 1.00					| Yield											| 
+| 0.00					| No vehicles									|
+| 0.00					| Speed limit (60km/h)							|
+| 0.00					| Ahead only									|
+| 0.00					| No passing									|
+
 
 ### (Optional) Visualizing the Neural Network (See Step 4 of the Ipython notebook for more details)
 This step wasn't performed.
