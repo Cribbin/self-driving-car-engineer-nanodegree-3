@@ -123,26 +123,26 @@ I chose this video for two main reasons:
 * I was worried that getting direct images online might result in me accidentally retrieving similar/identical images to the dataset used for training.
 
 ##### 33 - Turn right ahead
-![image_33][image_33]
+![test_33][test_33]
 * `16:13` in the video
 
 
 ##### 37 - Go straight or left
-![image_37][image_37]
+![test_37][test_37]
 * `11:35` in the video
 
 ##### 25 - Road work
-![image_25][image_25]
+![test_25][test_25]
 * `20:01` in the video
 * I feel this is the most difficult image. It is at a very sharp angle, and a lot of the information is lost when scaling it to 32*32 (It's a roadworkds sign). It also contains part of another sign in the image. Due to this, it should be a good test of how robust my classifier is.
 
 ##### 27 - Pedestrians
-![image_27][image_27] 
+![test_27][test_27] 
 * `02:00` in the video
 * This one shares all three problems mentioned in the last image, but to a lesser degree.
 
 ##### 13 - Yield
-![image_13][image_13] 
+![test_13][test_13] 
 * `25:40` in the video
 * I feel this might test the model as the color information for the yield sign appears to not appear fully in this frame, the border appears black isntead of red.
 
